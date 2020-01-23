@@ -66,14 +66,14 @@ if($_SESSION['flag']==0)
 <!-- Login bottom -->
 <div class="container-fluid">
 	
-		<form action="profile_result.php" method="post">
+		<form action="profile_result.php" method="post" enctype="multipart/form-data">
 			<table class="table">
 				<tbody>
 					<tr>
 						<td>Name:</td>
 						<td>
 							<input type="text" class="form-control form-control-lg form-control-sm" id="name" placeholder="Enter Name" name="name">
-					              <span class="error" style="color:red;"><?php  if($_SESSION['error']['nameErr']== "name is required")
+					              <span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['nameErr']))
 					                              echo $_SESSION['error']['nameErr']. "*"; 
 					                        ?>                      
 					              </span>
@@ -94,8 +94,8 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Mobile No.</td>
 						<td>
-							<input type="number" class="form-control form-control-lg form-control-sm" id="mob_no" placeholder="Enter Mobile No." name="mob_no">
-             						<span class="error" style="color:red;"><?php  if($_SESSION['error']['mob_noErr']== "mobile no. is required")
+							<input type="text" class="form-control form-control-lg form-control-sm" id="mob_no" placeholder="Enter Mobile No." name="mob_no">
+             						<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['mob_noErr']))
                               							echo $_SESSION['error']['mob_noErr']. "*"; 
                        												 ?>
                           
@@ -155,13 +155,20 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Skills</td>
 						<td>
-							<label for="skills">Skills:</label>
+							
           						<input type="checkbox" value="C" name="cb[]">C
 								<input type="checkbox" value="C++" name="cb[]">C++
 								<input type="checkbox" value="python" name="cb[]">Python	
 						</td>
-
-					</tr>
+					</tr>	
+						<tr>
+								<td>Profile Picture</td>
+								<td><input type="file" name="profilePicture"></td>
+						</tr>
+						<tr>
+								<td>Resume</td>
+								<td><input type="file" name="resume"></td>
+						</tr>
 					<tr>
 						<td></td>
 						<td><button type="submit" class="btn btn-default">Submit</button></td>

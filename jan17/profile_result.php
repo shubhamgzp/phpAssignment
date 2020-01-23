@@ -3,7 +3,7 @@
 session_start();
 $_SESSION['flag']=0;
 
-
+$_tmp="";
 		
 		if ($_SERVER["REQUEST_METHOD"] == "POST") 
 		{
@@ -16,7 +16,12 @@ $_SESSION['flag']=0;
   			else 
   			{
     			$_SESSION['user']['name'] = test_input($_POST["name"]);
-    			$_SESSION['error']['nameErr'] = '';
+    			if (!preg_match("/^[a-zA-Z ]*$/",$_SESSION['user']['name']))
+    			{
+    				$_SESSION['error']['nameErr'] = "Only letters and white space allowed";
+    				$_SESSION['flag']=1;
+    			}
+    			// $_SESSION['error']['nameErr'] = '';
   			}
 
   			if (empty($_POST["email"])) 
@@ -27,8 +32,13 @@ $_SESSION['flag']=0;
   			}
   			else 
   			{
-    			$_SESSION['user']['email'] = test_input($_POST["email"]);
-    			$_SESSION['error']['emailErr']='';
+    			$_SESSION['error']['emailErr'] = test_input($_POST["email"]);
+    			if (filter_var($_SESSION['error']['email'],FILTER_VALIDATE_EMAIL))
+    			{
+      				$_SESSION['error']['emailErr']  = "Invalid email";
+      				$_SESSION['flag']=1;
+    			}
+    			//$_SESSION['user']['email'] = $_SESSION['error']['emailErr'];
   			}
 
   			if (empty($_POST["mob_no"])) 
@@ -40,7 +50,9 @@ $_SESSION['flag']=0;
   			else 
   			{
     			$_SESSION['user']['mob_no'] = test_input($_POST["mob_no"]);
-    			$_SESSION['error']['mob_noErr']='';
+    			$mobNoLength=strlen($_SESSION['user']['mob_no']);
+    			mobNo_Validate($mobNoLength);
+    			//$_SESSION['error']['mob_noErr']='';
   			}
 
   			if (empty($_POST["gender"])) 
@@ -67,11 +79,21 @@ $_SESSION['flag']=0;
     			$_SESSION['error']['stateErr']='';
   			}
 
+  			 $_tmp=$_FILES['profilePicture']['name'];
+  			echo $_FILES['profilePicture'];
+  			echo "..........................";
 
-  			// if ((count($_POST['cb']) < 2) 
-  				// echo "erro";
-  			// {
+  			// echo count($_POST['cb'])	;
 
+
+  			 if ((count($_POST['cb']))< 2) 
+  			 {
+  				 echo "erro";
+			}else{
+				echo $_POST['cb'][0];
+				echo $_POST['cb'][1];
+				echo $_POST['cb'][2];
+			}
   			// 	// $_SESSION['user']['skills']['one']=$
 
     	// 		$_SESSION['error']['skillsErr']= "Min 2 skills are required";
@@ -101,25 +123,33 @@ $_SESSION['flag']=0;
     			$_SESSION['error']['ageErr']='';
   			}
 
-  		}else{
+
+
+
+  		}
+  		else
+  		{
 	
   			header("Location:index.php");exit();
-}
-  		if($_SESSION['flag']==0)
-  		{
-  			// header("Location:profile_result.php");
-  		}
-		else
-		{
-			
-			header("Location:profile.php");
 		}
+
+
+ 			
+
+  			// $_tmp="/picture/shubham.jpg";		
+		// echo "hey".move_uploaded_file($_FILES['profilePicture']['tmp_name'], $_tmp );
+			print_r($_FILES);
+
+  			
+
+  		
+		
 
 	function test_input($data) 
 	{
-		  $data = trim($data);
-		  $data = stripslashes($data);
-		  $data = htmlspecialchars($data);
+		  echo $data = trim($data);
+		  echo $data = stripslashes($data);
+		  echo $data = htmlspecialchars($data);
 		  return $data;
 	}
 	function age_validate($age)  // start from here validating mob no;
@@ -127,9 +157,24 @@ $_SESSION['flag']=0;
 		if($age >30 || $age <20)
 		{
 			$_SESSION['error']['ageErr']="age is required and should be between 20 to 30";
-			header("Location:profile.php");
+			$_SESSION['flag']=1;
+			//header("Location:profile.php");
 		}
 	}
+	function mobNo_Validate($mobNoLength)
+	{
+		if($mobNoLength!=10)
+		{
+			$_SESSION['flag']=1;
+			$_SESSION['error']['mob_noErr']='invalid mobile number';
+		}
+	}
+
+if($_SESSION['flag']==1)
+  		{
+  			header("Location:profile.php");
+  		}
+
 ?>
 <!doctype html>
 <!DOCTYPE html>
@@ -160,7 +205,9 @@ $_SESSION['flag']=0;
 						<h3 style="color:gray;"><hr></h3>
 				</div>
 				<div class="col-sm-3 cols=25%">
-					C
+					 <img src="<?php echo $_tmp ?>" style="width: 200px;">
+
+
 				</div>
 			</div>
 			
