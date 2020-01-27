@@ -2,6 +2,8 @@
 session_start();
 session_unset();
 session_destroy();
+$conn="";
+
 
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
@@ -9,41 +11,75 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 //echo $email;
 $password=$_POST['password'];
 //echo $password;
- if($email=="shubhams@mindfiresolutions.com" && $password=="mindfire")
- {
-	session_start();
+print_r($_POST);
+$servername = "localhost";
+$username = "shubham";
+$passwrd = "shubh@m27";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=myDb", $username, $passwrd);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully";
+    }
+catch(PDOException $e)
+    {
+    echo "Connection failed: " . $e->getMessage();
+    }
+
+
+
+$query = "SELECT * FROM registration where email='".$email."'";
+	if($result = $conn->query($query))
+	{
+			echo "hello0000 ";
+		echo "sljlfdj";
+		//echo $result."";
+		$userdata=$result->fetchAll();
+		//$str = $userdata->fetch();
+
+		print "<pre>";print_r($userdata);
+
+		echo $userdata[0]['password'];
+		if(password_verify($password, $userdata[0]['password']))
+		{
+			echo "hello";
+			session_start();
 			$_SESSION['user'] = array(
 										'email'    => $email,
-										'password' => $password,
-										'check'    => "true",
-										'name'     => "",
-										'mob_no'   => "",
-										'age'      => "",
-										'gender'   => "",
+										'check'    => 'true',
+										'name'     => '',
+										'mob_no'   => '',
+										'age'      => '',
+										'gender'   => '',
 										'skills'   => array(
-															'one'   => "",
-															'two'   => "",
-															'three' => ""
+															'one'   => '',
+															'two'   => '',
+															'three' => ''
 															
 														  ),
-										'state'    => ""
+										'state'    => ''
+
 
 
 
 									); 
 									
-	header("Location:profile.php");
-}
+	
+			 header("Location:profile.php");
+		}
+		else
+		{
+
+		echo "okay ";
+		}
+	}
+}	
 else
 {
-	session_start();
-	/*$_SESSION['user'] = array(
-								'check' => "false"
-							);	 */
-
-	$_SESSION['user']['check']="false";						
-	header("Location:index.php");	
-} 
+	session_start(); 
+	$_SESSION['user']['check']='false';						
+	// header("Location:index.php");	
 }
 
 ?>

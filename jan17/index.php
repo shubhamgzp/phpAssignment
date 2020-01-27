@@ -15,24 +15,24 @@ session_destroy();
 <head>
 	<title>resume.com</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
- 	<meta charset="utf-8">
+	<meta charset="utf-8">
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-		
+<body style="background-color: aliceblue;">
+		<!----------------------------------------------------------------------------------------------------->
 	<!-- outer -->
-	<div class="container-fluid" style="border:0px solid; width:100%; background-color:powderblue;">
+	<div class="container-fluid" style="border:0px solid; width:100%;">
 		<!------------------------------>
 		<!-- head -->
 		<div class="container-fluid" style="padding:15px;">
 
 
-			<div class="row width:90%" style="background-color:white; padding:30px;"> <!-- heaad row -->
- 				<div class="col-md-4 col-sm-4 col-sm-pull-4-"> <!--head col1 -->
+			<div class="row width:90%" style="; padding:30px;"> <!-- heaad row -->
+ 				<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col1 -->
  					
  				</div>
  				<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col2 -->
- 					  <h3 style="color:gray">Login Page</h3>
+ 					  <h3 style="color:cadetblue;padding-left:25%;">Login Page</h3>
  				</div>
  				<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col3 -->
  					
@@ -43,24 +43,21 @@ session_destroy();
 		</div>
 <!------------------------------>
 <!-- Login bottom -->
-<div class="container-fluid" style="padding:15px;">
-	<div class="container-fluid" style="width:90%; padding:20px; background-color: powderblue;">
-		<p style="color:red;"><?php 
+<div class="container-fluid" style="padding:6%;">
+	<div class="container-fluid" style="width:90%; padding:10%px;">
+	
+	<form action="login_result.php" method="post">
+	    <!-------------------------------->
+		<table class="table " style="padding:1%; background-color: cadetblue; border-radius:1%">
+			<p style="color:red;"><?php 
 										if($error == "email id or password is incorrect : try again")
 											{echo $error;}
-								?>
-											 	
+								?>								 	
 	    </p>
-
-
-
-<form action="login_result.php" method="post">
-	    <!-------------------------------->
-		<table class="table " style="padding:40px;">
 			<tbody>
 				<tr>
-					<td>Email</td>
-					<td><input type="email" class="form-control" required placeholder="Enter email address" name="email"></td>
+					<td style="padding-top:2%">Email</td>
+					<td style="padding-top:2%"><input type="email" class="form-control" required placeholder="Enter email address" name="email"></td>
 				</tr>
 				<tr>
 					<td>Password</td>
@@ -68,7 +65,9 @@ session_destroy();
 				</tr>
 				<tr>
 					<td></td>
-					<td><button type="submit" class="btn btn-default">Submit</button></td>
+					<td><button type="submit" class="btn btn-default">LogIn</button>
+						<a href="registration.php">register here</a>
+					</td>
 				</tr>
 			</tbody>
 			

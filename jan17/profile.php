@@ -1,6 +1,6 @@
 <?php
 session_start();
-if($_SESSION['user']['email']=="shubhams@mindfiresolutions.com" && $_SESSION['user']['password']=="mindfire")
+if($_SESSION['user']['email'])
 {
 
 }
@@ -8,7 +8,7 @@ else
 {
 	echo "session destroyed.......";
 	session_destroy();
-	header("Location:index.php");
+	 header("Location:index.php");
 }	
 if($_SESSION['flag']==0)
 {
@@ -22,11 +22,9 @@ if($_SESSION['flag']==0)
 										'ageErr'      => "",
 										'genderErr'   => "",
 										'stateErr'    => "",
-										'skillsErr'   => array(
-															'one'   => "",
-															'two'   => "",
-															'three' => ""
-															  ),
+										'skillsErr'   => "",
+										'resumeFileErr' =>"",
+										'profilePictureErr'=>"",
 								);
 }
 
@@ -39,7 +37,7 @@ if($_SESSION['flag']==0)
  	<meta charset="utf-8">
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body style="background-color: aliceblue";>
 	<!-- outer -->
 	<div class="container-fluid" style="border:0px solid; width:100%; background-color:powderblue;">
 		
@@ -82,7 +80,7 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Email</td>
 						<td>
-							<input type="email" class="form-control form-control-lg form-control-sm" id="email" placeholder="Enter email address" name="email">
+							<input type="email" class="form-control form-control-lg form-control-sm" placeholder="Enter email address" name="email">
 				              <span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['emailErr']))
 				                              echo $_SESSION['error']['emailErr']. "*"; 
 				                        ?>
@@ -158,20 +156,41 @@ if($_SESSION['flag']==0)
 							
           						<input type="checkbox" value="C" name="cb[]">C
 								<input type="checkbox" value="C++" name="cb[]">C++
-								<input type="checkbox" value="python" name="cb[]">Python	
+								<input type="checkbox" value="python" name="cb[]">Python
+								<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['skillsErr']))
+                              											echo $_SESSION['error']['skillsErr']."*"; 
+                        										?>
+                          
+              					</span>	
 						</td>
 					</tr>	
 						<tr>
 								<td>Profile Picture</td>
-								<td><input type="file" name="profilePicture"></td>
+								<td><input type="file" name="profilePicture">
+									<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['profilePictureErr']))
+                              											echo $_SESSION['error']['profilePictureErr']."*"; 
+                        										?>
+                          
+              					</span>
+
+
+								</td>
 						</tr>
 						<tr>
 								<td>Resume</td>
-								<td><input type="file" name="resume"></td>
+								<td><input type="file" name="resume">
+										<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['resumeFileErr']))
+                              											echo $_SESSION['error']['resumeFileErr']."*"; 
+                        										?>
+                          
+              					</span>	
+								</td>
 						</tr>
 					<tr>
 						<td></td>
-						<td><button type="submit" class="btn btn-default">Submit</button></td>
+						<td><button type="submit" class="btn btn-default">Submit</button>
+								<a href="logout.php" class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"></span> Log out</a>
+						</td>
 					</tr>
 					
 				</tbody>
