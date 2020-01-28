@@ -8,23 +8,20 @@ else
 {
 	echo "session destroyed.......";
 	session_destroy();
-	 header("Location:index.php");
+	header("Location:index.php");
 }	
 if($_SESSION['flag']==0)
 {
-	$_SESSION['error'] = array(
-										
-										//"password" => $password,
-										//"check"    => "true",
-										'nameErr'     => "",
-										'emailErr'    => "",
-										'mob_noErr'   => "",
-										'ageErr'      => "",
-										'genderErr'   => "",
-										'stateErr'    => "",
-										'skillsErr'   => "",
-										'resumeFileErr' =>"",
-										'profilePictureErr'=>"",
+	$_SESSION['error'] = array  (
+										'nameErr'          => '',
+										'emailErr'         => '',
+										'mob_noErr'        => '',
+										'ageErr'           => '',
+										'genderErr'   	   => '',
+										'stateErr'         => '',
+										'skillsErr'        => '',
+										'resumeFileErr'    => '',
+										'profilePictureErr'=> '',
 								);
 }
 
@@ -124,81 +121,90 @@ if($_SESSION['flag']==0)
 						<td>Age</td>
 						<td>
 							<input type="number" class="form-control" placeholder="" name="age">
-              				<span class="error" style="color:red;"><?php  
-                          												if($_SESSION['error']['ageErr'] == "age is required and should be between 20 to 30")
-                        												{
-                          													//$error=" enter age between 20 to 30";
-                          													echo $_SESSION['error']['ageErr']."*";
-                        												}
-                    												?>
- 		         			</span>
+              				<span class="error" style="color:red;">
+              					<?php  
+                          			if($_SESSION['error']['ageErr'] == "age is required and should be between 20 to 30")
+									{
+											//$error=" enter age between 20 to 30";
+											echo $_SESSION['error']['ageErr']."*";
+									}
+								?>
+         					</span>
 						</td>
 					</tr>
+
 					<tr>
 						<td>Gender</td>
 						<td>
-							
 							<input type="radio" name="gender" value="male">Male
         					<input type="radio" name="gender" value="female">Female
         					<input type="radio" name="gender" value="other">Other</label>
-         				 		<span class="error" style="color:red;"><?php  if($_SESSION['error']['genderErr']== "gender is required")
-                              											echo $_SESSION['error']['genderErr']."*"; 
-                        										?>
-                          
+         				 		<span class="error" style="color:red;">
+         				 			<?php  
+         				 				if($_SESSION['error']['genderErr']== "gender is required")
+         				 				{	
+  											echo $_SESSION['error']['genderErr']."*"; 
+										}
+									?>
               					</span>
-
 						</td>
 
 					</tr>
 					<tr>
 						<td>Skills</td>
 						<td>
-							
-          						<input type="checkbox" value="C" name="cb[]">C
-								<input type="checkbox" value="C++" name="cb[]">C++
-								<input type="checkbox" value="python" name="cb[]">Python
-								<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['skillsErr']))
-                              											echo $_SESSION['error']['skillsErr']."*"; 
-                        										?>
-                          
+	  						<input type="checkbox" value="C" name="cb[]">C
+							<input type="checkbox" value="C++" name="cb[]">C++
+							<input type="checkbox" value="python" name="cb[]">Python
+								<span class="error" style="color:red;">
+									<?php
+									    if(!empty($_SESSION['error']['skillsErr']))
+									    {
+  											echo $_SESSION['error']['skillsErr']."*"; 
+									    }
+									?>
               					</span>	
 						</td>
 					</tr>	
 						<tr>
 								<td>Profile Picture</td>
 								<td><input type="file" name="profilePicture">
-									<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['profilePictureErr']))
-                              											echo $_SESSION['error']['profilePictureErr']."*"; 
-                        										?>
-                          
-              					</span>
-
-
+									<span class="error" style="color:red;">
+										<?php
+										  	if(!empty($_SESSION['error']['profilePictureErr']))
+      										{
+      											echo $_SESSION['error']['profilePictureErr']."*"; 
+      										}
+										?>
+  
+              						</span>
 								</td>
 						</tr>
+
 						<tr>
 								<td>Resume</td>
 								<td><input type="file" name="resume">
-										<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['resumeFileErr']))
-                              											echo $_SESSION['error']['resumeFileErr']."*"; 
-                        										?>
-                          
-              					</span>	
+										<span class="error" style="color:red;">
+											<?php  
+												if(!empty($_SESSION['error']['resumeFileErr']))
+          										{
+          											echo $_SESSION['error']['resumeFileErr']."*"; 
+          										}
+    										?>
+      
+              							</span>	
 								</td>
 						</tr>
+
 					<tr>
 						<td></td>
 						<td><button type="submit" class="btn btn-default">Submit</button>
 								<a href="logout.php" class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"></span> Log out</a>
 						</td>
-					</tr>
-					
+					</tr>	
 				</tbody>
 			</table>
 		</form>	
-		
-	
 	</div> <!-- outer -->
-
 </body>
 </html>
