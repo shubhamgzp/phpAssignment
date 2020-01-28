@@ -1,7 +1,6 @@
 <?php
 $error="";
 session_start();
-
 if($_SESSION['user']['check']=="false")
 {
 	echo "email id or password is incorrect : try again";
@@ -17,7 +16,7 @@ session_destroy();
 ?>
 <?php require 'header.php'; ?>
 <body style="background-color: aliceblue;">
-		<!----------------------------------------------------------------------------------------------------->
+	<!-------------------------------------------------------------------------------------->
 	<!-- outer -->
 <div class="container-fluid" style="border:0px solid; width:100%;">
 	<!------------------------------>
@@ -33,7 +32,7 @@ session_destroy();
 				</div>
 			</div>	
 	</div>
-<!------------------------------>
+<!----------------------------------------------------------------------------------------->
 <!-- Login bottom -->
 	<div class="container-fluid" style="padding:6%;">
 		<div class="container-fluid" style="width:90%; padding:10%px;">
@@ -41,10 +40,13 @@ session_destroy();
 		<form action="login_result.php" method="post">
 		    <!-------------------------------->
 			<table class="table " style="padding:1%; background-color: cadetblue; border-radius:1%">
-				<p style="color:red;"><?php 
-											if($error == "email id or password is incorrect : try again")
-												{echo $error;}
-									?>								 	
+				<p style="color:red;">
+					<?php 
+						if($error == "email id or password is incorrect : try again")
+						{
+							echo $error;
+						}
+					?>								 	
 		    	</p>
 				<tbody>
 					<tr>

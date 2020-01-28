@@ -13,7 +13,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 	$servername = "localhost";
 	$username = "shubham";
 	$passwrd = "shubh@m27";
-
 	try
 	{
     	$conn = new PDO("mysql:host=$servername;dbname=myDb", $username, $passwrd);
@@ -25,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     {
    		// echo "Connection failed: " . $e->getMessage();
     }
-	
+
 	$query = "SELECT * FROM registration where email='".$email."'";
 	
 	if($result = $conn->query($query))
@@ -53,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 														  ),
 										'state'    => ''
 									);					
-			 header("Location:profile.php");
+			header("Location:profile.php");
 		}
 		else
 		{

@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 session_unset();
 session_destroy();
@@ -28,13 +27,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 	    		session_start();
 	    		$_SESSION['msg']=$msg;
 	    		 header("Location:index.php");
-	    	}
-	    
+	    	}    
 	}
 	catch(PDOException $e)
     {
 	    echo "Connection failed: " . $e->getMessage();
     }
-
 }
 ?>

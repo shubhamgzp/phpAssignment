@@ -13,15 +13,15 @@ else
 if($_SESSION['flag']==0)
 {
 	$_SESSION['error'] = array  (
-										'nameErr'          => '',
-										'emailErr'         => '',
-										'mob_noErr'        => '',
-										'ageErr'           => '',
-										'genderErr'   	   => '',
-										'stateErr'         => '',
-										'skillsErr'        => '',
-										'resumeFileErr'    => '',
-										'profilePictureErr'=> '',
+									'nameErr'          => '',
+									'emailErr'         => '',
+									'mob_noErr'        => '',
+									'ageErr'           => '',
+									'genderErr'   	   => '',
+									'stateErr'         => '',
+									'skillsErr'        => '',
+									'resumeFileErr'    => '',
+									'profilePictureErr'=> '',
 								);
 }
 
@@ -36,31 +36,23 @@ if($_SESSION['flag']==0)
 </head>
 <body style="background-color: aliceblue";>
 	<!-- outer -->
-	<div class="container-fluid" style="border:0px solid; width:100%; background-color:powderblue;">
-		
-		<!------------------------------>
+	<div class="container-fluid" style="border:0px solid; width:100%; background-color:powderblue;">		
+<!------------------------------>
 		<!-- head -->
 		<div class="container-fluid">
-
-
 			<div class="row width:90%" style="background-color:white; padding:30px;"> <!-- heaad row -->
- 				<div class="col-md-4 col-sm-4 col-sm-pull-4-"> <!--head col1 -->
- 					
+ 				<div class="col-md-4 col-sm-4 col-sm-pull-4-"> <!--head col1 -->	
  				</div>
  				<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col2 -->
  					  <h3 style="color:gray">Profile</h3>
  				</div>
- 				<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col3 -->
- 					
+ 				<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col3 -->	
  				</div>
-
- 			</div>	
-			
+ 			</div>		
 		</div>
 <!------------------------------>
 <!-- Login bottom -->
 <div class="container-fluid">
-	
 		<form action="profile_result.php" method="post" enctype="multipart/form-data">
 			<table class="table">
 				<tbody>
@@ -68,9 +60,13 @@ if($_SESSION['flag']==0)
 						<td>Name:</td>
 						<td>
 							<input type="text" class="form-control form-control-lg form-control-sm" id="name" placeholder="Enter Name" name="name">
-					              <span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['nameErr']))
-					                              echo $_SESSION['error']['nameErr']. "*"; 
-					                        ?>                      
+					              <span class="error" style="color:red;">
+						              	<?php
+						              	    if(!empty($_SESSION['error']['nameErr']))
+						                    {
+						                        echo $_SESSION['error']['nameErr']. "*"; 
+				                    	    }
+						                ?>                      
 					              </span>
 						</td>
 					</tr>
@@ -78,11 +74,14 @@ if($_SESSION['flag']==0)
 						<td>Email</td>
 						<td>
 							<input type="email" class="form-control form-control-lg form-control-sm" placeholder="Enter email address" name="email">
-				              <span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['emailErr']))
-				                              echo $_SESSION['error']['emailErr']. "*"; 
-				                        ?>
+				              <span class="error" style="color:red;">
+				              		<?php  
+				              			if(!empty($_SESSION['error']['emailErr']))
+				                        {
+				                            echo $_SESSION['error']['emailErr']. "*"; 
+				                        }
+				                    ?>
 				              </span>
-
 						</td>
 					</tr>
 
@@ -90,13 +89,16 @@ if($_SESSION['flag']==0)
 						<td>Mobile No.</td>
 						<td>
 							<input type="text" class="form-control form-control-lg form-control-sm" id="mob_no" placeholder="Enter Mobile No." name="mob_no">
-             						<span class="error" style="color:red;"><?php  if(!empty($_SESSION['error']['mob_noErr']))
-                              							echo $_SESSION['error']['mob_noErr']. "*"; 
-                       												 ?>
+             						<span class="error" style="color:red;">
+             							<?php  
+             								if(!empty($_SESSION['error']['mob_noErr']))
+											{                              			
+                              					echo $_SESSION['error']['mob_noErr']. "*"; 
+                       						}
+                       					?>
                           
-             						 </span>
+             						</span>
 						</td>
-
 					</tr>
 					
 					<tr>
@@ -109,10 +111,13 @@ if($_SESSION['flag']==0)
 						        <option>DELHI</option>
 						        <option>MUMBAI</option>
 						        </select>
-						        	<span class="error" style="color:red;"><?php  if($_SESSION['error']['stateErr']== "state is required")
-						                              echo $_SESSION['error']['stateErr']."*"; 
-						                        ?>
-						                          
+						        	<span class="error" style="color:red;">
+						        		<?php
+						        		    if($_SESSION['error']['stateErr']== "state is required")
+						                    {
+						                        echo $_SESSION['error']['stateErr']."*"; 
+						                    }
+						                ?>              
 						            </span>
 						</td>
 					</tr>
@@ -138,7 +143,7 @@ if($_SESSION['flag']==0)
 						<td>
 							<input type="radio" name="gender" value="male">Male
         					<input type="radio" name="gender" value="female">Female
-        					<input type="radio" name="gender" value="other">Other</label>
+        					<input type="radio" name="gender" value="other">Other
          				 		<span class="error" style="color:red;">
          				 			<?php  
          				 				if($_SESSION['error']['genderErr']== "gender is required")
@@ -148,8 +153,8 @@ if($_SESSION['flag']==0)
 									?>
               					</span>
 						</td>
-
 					</tr>
+
 					<tr>
 						<td>Skills</td>
 						<td>
@@ -165,36 +170,35 @@ if($_SESSION['flag']==0)
 									?>
               					</span>	
 						</td>
-					</tr>	
-						<tr>
-								<td>Profile Picture</td>
-								<td><input type="file" name="profilePicture">
-									<span class="error" style="color:red;">
-										<?php
-										  	if(!empty($_SESSION['error']['profilePictureErr']))
-      										{
-      											echo $_SESSION['error']['profilePictureErr']."*"; 
-      										}
-										?>
-  
-              						</span>
-								</td>
-						</tr>
+					</tr>
 
-						<tr>
-								<td>Resume</td>
-								<td><input type="file" name="resume">
-										<span class="error" style="color:red;">
-											<?php  
-												if(!empty($_SESSION['error']['resumeFileErr']))
-          										{
-          											echo $_SESSION['error']['resumeFileErr']."*"; 
-          										}
-    										?>
-      
-              							</span>	
-								</td>
-						</tr>
+					<tr>
+						<td>Profile Picture</td>
+						<td><input type="file" name="profilePicture">
+							<span class="error" style="color:red;">
+								<?php
+								  	if(!empty($_SESSION['error']['profilePictureErr']))
+									{
+										echo $_SESSION['error']['profilePictureErr']."*"; 
+									}
+								?>
+      						</span>
+						</td>
+					</tr>
+
+					<tr>
+						<td>Resume</td>
+						<td><input type="file" name="resume">
+								<span class="error" style="color:red;">
+									<?php  
+										if(!empty($_SESSION['error']['resumeFileErr']))
+  										{
+  											echo $_SESSION['error']['resumeFileErr']."*"; 
+  										}
+									?>
+      							</span>	
+						</td>
+					</tr>
 
 					<tr>
 						<td></td>
@@ -202,6 +206,7 @@ if($_SESSION['flag']==0)
 								<a href="logout.php" class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-log-out"></span> Log out</a>
 						</td>
 					</tr>	
+				
 				</tbody>
 			</table>
 		</form>	
