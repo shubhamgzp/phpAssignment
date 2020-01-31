@@ -1,8 +1,12 @@
 <?php
 session_start();
-if($_SESSION['user']['email'])
+require 'dbms.php';
+$dbmsObject = new Irud();
+if($_SESSION['user']['id'])
 {
 
+	$email=$dbmsObject->getSkillId('email','registration','userId',$_SESSION['user']['id'] );
+	$_SESSION['user']['email']=$email;
 }
 else
 {
@@ -21,7 +25,7 @@ if($_SESSION['flag']==0)
 									'stateErr'         => '',
 									'skillsErr'        => '',
 									'resumeFileErr'    => '',
-									'profilePictureErr'=> '',
+									'profilePictureErr'=> ''
 								);
 }
 

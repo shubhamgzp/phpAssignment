@@ -1,37 +1,30 @@
 <?php
 session_start();
 session_unset();
-session_destroy();
+//session_destroy();
+
+require 'dbms.php';
+$operation = new Irud();
+
+
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
 	$email=$_POST['email'];
 	echo $email;
 	$password=password_hash($_POST['password'], PASSWORD_DEFAULT);
 	echo $password;
-	$servername = "localhost";
-	$username = "shubham";
-	$passwrd = "shubh@m27";
-	$msg='';
-	try 
-	{
-	    $conn = new PDO("mysql:host=$servername;dbname=myDb", $username, $passwrd);
-	    // set the PDO error mode to exception
-	    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	    echo 'Connected successfully';
-	    
-	    $sql = "INSERT INTO registration VALUES ('$password',0,'$email')";
-	    $conn->exec($sql);
-	    echo $msg = "New record created successfully";
-	    	if($msg)
-	    	{
-	    		session_start();
-	    		$_SESSION['msg']=$msg;
-	    		 header("Location:index.php");
-	    	}    
-	}
-	catch(PDOException $e)
-    {
-	    echo "Connection failed: " . $e->getMessage();
-    }
+	$arr= array(
+				'email' => $email,
+				'password'=>$password
+			  );
+
+
+
+	//$insert = Irud::insertInto('registration',$arr);
+	
+	$_SESSION['user']['id']=$operation->insertInto('registration',$arr);
+	header("Location:profile.php");
+
+
 }
 ?>

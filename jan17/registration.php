@@ -22,6 +22,14 @@ session_start();
 				</div>
 				<div class="col-md-8 col-sm-8 col-sm-pull-8"> <!--head col2 -->
 					<input type="email" class="form-control" required placeholder="Enter email address" name="email">
+					<span class="error" style="color:red;">
+				              		<?php  
+				              			if(!empty($_SESSION['error']['emailErr']))
+				                        {
+				                            echo $_SESSION['error']['emailErr']. "*"; 
+				                        }
+				                    ?>
+				              </span>
 				</div>	
 		</div>
 
@@ -41,7 +49,7 @@ session_start();
 					<button type="submit" class="btn btn-default">Submit</button>
 				</div>
 		</div>
-		
+
 	</div>
 </body>
 </html>

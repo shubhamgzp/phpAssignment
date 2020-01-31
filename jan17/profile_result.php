@@ -1,10 +1,16 @@
 <?php
 session_start();
+require 'dbms.php';
+$dbmsObject=new Irud();
 $_SESSION['flag']=0;
 $conn='';
 $_tmp="";
-$emailFlag=0;		
+$emailFlag=0;
+	
+$_SESSION['user']['id'];	
+$_SESSION['user']['email'];
 $resume = array('.jpg','.jpeg','.png');
+
 	function extValidateResume($str)
 	{
 		//echo "this is ".$str;
@@ -21,7 +27,6 @@ $resume = array('.jpg','.jpeg','.png');
   		{
    			$_SESSION['error']['nameErr']= "name is required";
    			$_SESSION['flag']=1;
-    			//header("Location:profile.php");
    		}
   		else 
   		{
@@ -38,118 +43,115 @@ $resume = array('.jpg','.jpeg','.png');
   		{
    			$_SESSION['error']['emailErr']= "email is required";
   			$_SESSION['flag']=1;
-    			//header("Location:profile.php");
   		}
  		else 
   		{
     		$_SESSION['error']['emailErr'] = test_input($_POST["email"]);
    			$_SESSION['error']['emailErr']='';
    			if (filter_var($_SESSION['error']['emailErr'],FILTER_VALIDATE_EMAIL))
-    			{
-      				$_SESSION['error']['emailErr']  = "Invalid email";
-      				$_SESSION['flag']=1;
-    			}			
-  			}	
-  			if (empty($_POST["mob_no"])) 
-  			{
-    			$_SESSION['error']['mob_noErr']= "mobile no. is required";
-    			$_SESSION['flag']=1;
-    			//header("Location:profile.php");
-  			}
-  			else 
-  			{
-    			$_SESSION['user']['mob_no'] = test_input($_POST["mob_no"]);
-    			$_SESSION['error']['mob_noErr']='';
-    			$mobNoLength=strlen($_SESSION['user']['mob_no']);
-    			mobNo_Validate($mobNoLength);
-    			//$_SESSION['error']['mob_noErr']='';
-  			}
-  			if (empty($_POST["gender"])) 
-  			{
-    			$_SESSION['error']['genderErr']= "gender is required";
-    			$_SESSION['flag']=1;
-    			//header("Location:profile.php");
-  			}
-  			else 
-  			{
-    			$_SESSION['user']['gender'] = test_input($_POST["gender"]);
-    			$_SESSION['error']['genderErr']='';
-  			}
-  			if (empty($_POST["state"])) 
-  			{
-    			$_SESSION['error']['stateErr']= "state is required";
-    			$_SESSION['flag']=1;
-    			//header("Location:profile.php");
-  			}
-  			else 
-  			{
-    			$_SESSION['user']['state'] = test_input($_POST["state"]);
-    			$_SESSION['error']['stateErr']='';
-  			}
-  			if(!extValidateProfilePicture($_FILES['profilePicture']['type']))
-  			{
-  			 	$_SESSION['error']['profilePictureErr']='.png or .jpg or .jpeg files only';
-  			 	//$_SESSION['flag']=1;
-  			}
-  			else
-  			{
-  			 	$_SESSION['error']['profilePictureErr']='';
-  			 	$_tmp=$_FILES['profilePicture']['name'];
-  				$_FILES['profilePicture'];
-  				
-  			}	
-  			 
-			if(!extValidateResume($_FILES['resume']['type'])) 
 			{
-				$_SESSION['error']['resumeFileErr']='upload .pdf file only';
-				//$_SESSION['flag']=1;
-			}
-			else
-			{
-				$_SESSION['error']['resumeFileErr']='';
-				echo $tmpName = $_FILES['resume']['tmp_name']; 
-				echo $fileName = $_FILES['resume']['name'];
-				
-			}
-  			if ((count($_POST['cb']))< 2) 
-  			{
-  				 $_SESSION['error']['skillsErr']="minimum 2 skills are manadatory";
-  				 $_SESSION['flag']=1;
-			}
-			else
-			{
-				$_SESSION['user']['skills']['one']= $_POST['cb'][0];
-				$_SESSION['user']['skills']['two']= $_POST['cb'][1];
-			    $_SESSION['user']['skills']['three']= $_POST['cb'][2];
-			    $_SESSION['error']['skillsErr']="";
-			}
-  			if (empty($_POST["age"])) 
-  			{
-  				
-    			$_SESSION['error']['ageErr']= "age is required and should be between 20 to 30";	
-    			$_SESSION['flag']=1;
-    			//header("Location:profile.php");
-  			}
-  			else 
-  			{
-
-    			$_SESSION['user']['age'] = test_input($_POST["age"]);
-    			age_validate($_SESSION['user']['age']);
-    			$_SESSION['error']['ageErr']='';
-  			}
-
-  		}
-  		else
-  		{
-	
-  			header("Location:index.php");exit();
+  				$_SESSION['error']['emailErr']  = "Invalid email";
+  				$_SESSION['flag']=1;
+			}			
+  		}	
+		if (empty($_POST["mob_no"])) 
+		{
+			$_SESSION['error']['mob_noErr']= "mobile no. is required";
+			$_SESSION['flag']=1;
 		}
+		else 
+		{
+			$_SESSION['user']['mobNo'] = test_input($_POST["mob_no"]);
+			$_SESSION['error']['mob_noErr']='';
+			$mobNoLength=strlen($_SESSION['user']['mobNo']);
+			mobNo_Validate($mobNoLength);
+			//$_SESSION['error']['mob_noErr']='';
+		}
+		if (empty($_POST["gender"])) 
+		{
+			$_SESSION['error']['genderErr']= "gender is required";
+			$_SESSION['flag']=1;
+			//header("Location:profile.php");
+		}
+		else 
+		{
+			$_SESSION['user']['gender'] = test_input($_POST["gender"]);
+			$_SESSION['error']['genderErr']='';
+		}
+		if (empty($_POST["state"])) 
+		{
+			$_SESSION['error']['stateErr']= "state is required";
+			$_SESSION['flag']=1;
+			//header("Location:profile.php");
+		}
+		else 
+		{
+			$_SESSION['user']['state'] = test_input($_POST["state"]);
+			$_SESSION['error']['stateErr']='';
+		}
+		if(!extValidateProfilePicture($_FILES['profilePicture']['type']))
+		{
+		 	$_SESSION['error']['profilePictureErr']='.png or .jpg or .jpeg files only';
+		 	//$_SESSION['flag']=1;
+		}
+		else
+		{
+		 	$_SESSION['error']['profilePictureErr']='';
+		 	$_tmp=$_FILES['profilePicture']['name'];
+			$_FILES['profilePicture'];
+			
+		}	
+			 
+		if(!extValidateResume($_FILES['resume']['type'])) 
+		{
+			$_SESSION['error']['resumeFileErr']='upload .pdf file only';
+			//$_SESSION['flag']=1;
+		}
+		else
+		{
+			$_SESSION['error']['resumeFileErr']='';
+			$tmpName = $_FILES['resume']['tmp_name']; 
+			$fileName = $_FILES['resume']['name'];
+			
+		}
+		if ((count($_POST['cb']))< 2) 
+		{
+			$_SESSION['error']['skillsErr']="minimum 2 skills are manadatory";
+			$_SESSION['flag']=1;
+		}
+		else
+		{
+			$_SESSION['user']['skills']['one']= $_POST['cb'][0];
+			$_SESSION['user']['skills']['two']= $_POST['cb'][1];
+		    $_SESSION['user']['skills']['three']= $_POST['cb'][2];
+		    $_SESSION['error']['skillsErr']="";
+		}
+		if (empty($_POST["age"])) 
+		{
+			$_SESSION['error']['ageErr']= "age is required and should be between 20 to 30";	
+			$_SESSION['flag']=1;
+			//header("Location:profile.php");
+		}
+		else 
+		{
+			$_SESSION['user']['age'] = test_input($_POST["age"]);
+			age_validate($_SESSION['user']['age']);
+			$_SESSION['error']['ageErr']='';
+		}
+
+  	}
+  	else
+ 	{
+	
+  		header("Location:index.php");
+  		exit();
+	}
   			// $_tmp="/picture/shubham.jpg";		
 		// echo "hey".move_uploaded_file($_FILES['profilePicture']['tmp_name'], $_tmp );
 		//	print_r($_FILES);
 	function test_input($data) 
 	{
-		   $data = trim($data);
+		   $data = trim($data,"/\-*&#$");
 		   $data = stripslashes($data);
 		   $data = htmlspecialchars($data);
 		  return $data;
@@ -179,31 +181,52 @@ $resume = array('.jpg','.jpeg','.png');
 	}
 	else
 	{
-		$servername = "localhost";
-		$username = "shubham";
-		$passwrd = "shubh@m27";
-		$msg='';
-		try
-		{
-			$conn = new PDO("mysql:host=$servername;dbname=myDb", $username, $passwrd);
-			// set the PDO error mode to exception
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			echo 'Connected successfully';
-				
-			$sql = "INSERT INTO user VALUES ('".$_SESSION['user']['name']."','".$_SESSION['user']['email']."','".$_SESSION['user']['mob_no']."','".$_SESSION['user']['age']."','".$_SESSION['user']['state']."','".$_SESSION['user']['gender']."','".$_tmp."','".$fileName."',now(),now(),0)";
-				$conn->exec($sql);
-			
-			$msg = "New record created successfully";
-			if($msg)
-			{
-					//header("Location:profile_result.php");
-			}
+		echo "id = ";
+	 echo $_SESSION['user']['id'];
+		$arr= array(
+						'name' 				=> $_SESSION['user']['name'],
+						'mobNo'				=> $_SESSION['user']['mobNo'],
+						'age'				=> $_SESSION['user']['age'],
+						'state'				=> $_SESSION['user']['state'],
+						'gender'			=> $_SESSION['user']['gender'],
+						'profilePicture'	=> $_tmp,
+						'resume'			=> $fileName,
+						'fkUserId'			=> $_SESSION['user']['id'],
+						'email'				=> $_SESSION['user']['email']
+					);
+		// echo $_SESSION['user']['email'];
+		$a=$dbmsObject->insertInto('user',$arr);
+		//echo "hello-=";
+		//echo $a;
 
-		}
-		catch(PDOException $e)
-		{
-			echo "Connection failed: " . $e->getMessage();
-		}
+// started from here .......................................................................................
+
+		// $arr = array(
+		//     				'c' 	=>$_SESSION['user']['skills']['one'],
+		//     				'c++'	=>$_SESSION['user']['skills']['two'],
+		//     				'python'=>$_SESSION['user']['skills']['three']
+		//     			);
+		   
+		//    $i=0;
+		   
+		   // $i=0;
+		   // echo $arr['c'];
+		   // echo $arr[$i++];
+		   // echo $arr[$i++];
+		    for($i=0;$i<count($_POST['cb']);$i++)
+		    {
+		    	//echo $_POST['cb'][$i];	
+		    	 $tableName='skill';
+		    $attribute='skillName';
+		    	$id=$dbmsObject->getSkillId('skillId',$tableName,$attribute,$_POST['cb'][$i]);
+		    	 $arr= array(
+		    	 				'fkUserId'	=>$_SESSION['user']['id'],
+		    	 				'fkSkillId'	=>$id
+
+		    	 			);
+		    	 $tableName='userSkill';
+		    	$dbmsObject->insertInto($tableName,$arr);
+		    }
 
 	}  // else block of if($_SESSION['flag']==1)
 ?>
@@ -243,13 +266,14 @@ $resume = array('.jpg','.jpeg','.png');
 							<td>Name : </td>
 							<td style="color:red;"><?php echo $_SESSION['user']['name'];   ?></td>
 						</tr>
-						<tr>
+						 <tr>
 							<td>Email : </td>
-							<td style="color:red;"><?php echo $_SESSION['user']['email'];   ?></td>
-						</tr>
+							<td style="color:red;">  <?php echo $_SESSION['user']['email'];   ?>
+							 </td>
+						</tr> 
 						<tr>
 							<td>Mob No : </td>
-							<td style="color:red;"><?php echo $_SESSION['user']['mob_no'];   ?></td>
+							<td style="color:red;"><?php echo $_SESSION['user']['mobNo'];   ?></td>
 						</tr>
 						<tr>
 							<td>Gender : </td>
