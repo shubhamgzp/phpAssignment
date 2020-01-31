@@ -2,28 +2,41 @@
 
 session_start();
 session_unset();
-//session_destroy();
-
 require 'dbms.php';
-
+require 'validate.php';
+$obValidate = new IsValid();
 $dbmsObject = new Irud();
-$conn='';
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
 	$email=$_POST['email'];
-	//echo $email;
+	$_SESSION['error']['emailErr']='';
+	if(!$obValidate->validateEmail($email))
+	{
+
+			$_SESSION['error']['emailErr']='invalid email id or password';
+			header("Location:index.php");
+			exit();
+	}
 	$password=$_POST['password'];
-	//echo $password;
-	session_start();
 	$_SESSION['user']['id']=NULL;
- 	$id=$dbmsObject->getUserId('userId','registration',$email,$password);
-	echo $_SESSION['user']['id']=$id;
+	
+	$tableName='registration';
+	$attributeName='email';
+	$attributeValue=$email;
+ 	
+ 	echo $row=$dbmsObject->get($tableName,$attributeName,$attributeValue);
+	$_SESSION['user']['id']=$row['userId'];
+
+	if(password_verify($password, $row['password']))
+	{
+				
+	
 	if($_SESSION['user']['id'])
 	{
-		echo "helo";
+		echo "helooo..........";
 		echo $_SESSION['user']['id'];
  			$_SESSION['user'] = array(
- 										'id'	   => $id,
+ 										'id'	   => $_SESSION['user']['id'],
  										'email'    => $email,
  										'name'     => '',
  										'check'	   => 'true',
@@ -49,15 +62,16 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 			//echo "hello";
 			session_start(); 
 			$_SESSION['user']['check']='false';	
-			header("Location:index.php");
+			//header("Location:index.php");
 		}
 	
- }	
+ 	}	
+}
 else
 {
 	//echo "hiii";
 	session_start(); 
 	$_SESSION['user']['check']='false';						
-	header("Location:index.php");	
+	//header("Location:index.php");	
 }
 ?>

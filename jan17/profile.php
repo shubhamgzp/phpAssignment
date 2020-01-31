@@ -4,9 +4,12 @@ require 'dbms.php';
 $dbmsObject = new Irud();
 if($_SESSION['user']['id'])
 {
+	$tableName='registration';
+	$attributeName='userId';
+	$attributeValue=$_SESSION['user']['id'];
 
-	$email=$dbmsObject->getSkillId('email','registration','userId',$_SESSION['user']['id'] );
-	$_SESSION['user']['email']=$email;
+	$row=$dbmsObject->get($tableName,$attributeName,$attributeValue );
+	$_SESSION['user']['email']=$row['email'];
 }
 else
 {
@@ -63,7 +66,7 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Name:</td>
 						<td>
-							<input type="text" class="form-control form-control-lg form-control-sm" id="name" placeholder="Enter Name" name="name">
+							<input type="text" class="form-control form-control-lg form-control-sm" id="name" placeholder="Enter Name" value="<?php echo $_SESSION['user']['name']; ?>" name="name">
 					              <span class="error" style="color:red;">
 						              	<?php
 						              	    if(!empty($_SESSION['error']['nameErr']))
@@ -77,7 +80,7 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Email</td>
 						<td>
-							<input type="email" class="form-control form-control-lg form-control-sm" placeholder="Enter email address" name="email">
+							<input type="email" class="form-control form-control-lg form-control-sm" readonly placeholder="<?php echo $_SESSION['user']['email'];?>" name="email">
 				              <span class="error" style="color:red;">
 				              		<?php  
 				              			if(!empty($_SESSION['error']['emailErr']))
@@ -92,7 +95,7 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Mobile No.</td>
 						<td>
-							<input type="text" class="form-control form-control-lg form-control-sm" id="mob_no" placeholder="Enter Mobile No." name="mob_no">
+							<input type="text" class="form-control form-control-lg form-control-sm" id="mob_no" placeholder="Enter Mobile No." value="<?php echo $_SESSION['user']['mobNo']; ?>" name="mob_no">
              						<span class="error" style="color:red;">
              							<?php  
              								if(!empty($_SESSION['error']['mob_noErr']))
@@ -110,10 +113,34 @@ if($_SESSION['flag']==0)
 						<td>
 							<select class="form-control" id="state" name="state">
 								<option></option>
-						        <option>Uttar Pradesh</option>
-						        <option>ODISHA</option>
-						        <option>DELHI</option>
-						        <option>MUMBAI</option>
+						        <option 
+						        	<?php 
+						        		if($_SESSION['user']['state'] == 'Uttar Pradesh')
+						        			echo selected;
+
+						        	 ?>
+						        >Uttar Pradesh</option>
+						        <option 
+						        	<?php 
+						        		if($_SESSION['user']['state'] == 'ODISHA')
+						        			echo selected;
+
+						        	 ?>
+						        >ODISHA</option>
+						        <option
+						        	<?php 
+						        		if($_SESSION['user']['state'] == 'DELHI')
+						        			echo selected;
+
+						        	 ?>
+						        >DELHI</option>
+						        <option
+						        	<?php 
+						        		if($_SESSION['user']['state'] == 'MUMBAI')
+						        			echo selected;
+
+						        	 ?>
+						        >MUMBAI</option>
 						        </select>
 						        	<span class="error" style="color:red;">
 						        		<?php
@@ -129,7 +156,7 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Age</td>
 						<td>
-							<input type="number" class="form-control" placeholder="" name="age">
+							<input type="number" class="form-control" placeholder="" value="<?php echo $_SESSION['user']['age']; ?>" name="age">
               				<span class="error" style="color:red;">
               					<?php  
                           			if($_SESSION['error']['ageErr'] == "age is required and should be between 20 to 30")
@@ -162,9 +189,9 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Skills</td>
 						<td>
-	  						<input type="checkbox" value="C" name="cb[]">C
-							<input type="checkbox" value="C++" name="cb[]">C++
-							<input type="checkbox" value="python" name="cb[]">Python
+	  						<input type="checkbox" value="C" value="<?php echo $_SESSION['user']['skills']['one']; ?>" name="cb[]">C
+							<input type="checkbox" value="C++" value="<?php echo $_SESSION['user']['skills']['two']; ?>"  name="cb[]">C++
+							<input type="checkbox" value="python" value="<?php echo $_SESSION['user']['skills']['three']; ?>" name="cb[]">Python
 								<span class="error" style="color:red;">
 									<?php
 									    if(!empty($_SESSION['error']['skillsErr']))

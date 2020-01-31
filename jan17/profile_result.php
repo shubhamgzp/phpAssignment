@@ -39,21 +39,7 @@ $resume = array('.jpg','.jpeg','.png');
     		}
     			// $_SESSION['error']['nameErr'] = '';
   		}
-  		if (empty($_POST["email"])) 
-  		{
-   			$_SESSION['error']['emailErr']= "email is required";
-  			$_SESSION['flag']=1;
-  		}
- 		else 
-  		{
-    		$_SESSION['error']['emailErr'] = test_input($_POST["email"]);
-   			$_SESSION['error']['emailErr']='';
-   			if (filter_var($_SESSION['error']['emailErr'],FILTER_VALIDATE_EMAIL))
-			{
-  				$_SESSION['error']['emailErr']  = "Invalid email";
-  				$_SESSION['flag']=1;
-			}			
-  		}	
+  	
 		if (empty($_POST["mob_no"])) 
 		{
 			$_SESSION['error']['mob_noErr']= "mobile no. is required";
@@ -96,6 +82,7 @@ $resume = array('.jpg','.jpeg','.png');
 		}
 		else
 		{
+
 		 	$_SESSION['error']['profilePictureErr']='';
 		 	$_tmp=$_FILES['profilePicture']['name'];
 			$_FILES['profilePicture'];
@@ -181,54 +168,46 @@ $resume = array('.jpg','.jpeg','.png');
 	}
 	else
 	{
-		echo "id = ";
-	 echo $_SESSION['user']['id'];
-		$arr= array(
-						'name' 				=> $_SESSION['user']['name'],
-						'mobNo'				=> $_SESSION['user']['mobNo'],
-						'age'				=> $_SESSION['user']['age'],
-						'state'				=> $_SESSION['user']['state'],
-						'gender'			=> $_SESSION['user']['gender'],
-						'profilePicture'	=> $_tmp,
-						'resume'			=> $fileName,
-						'fkUserId'			=> $_SESSION['user']['id'],
-						'email'				=> $_SESSION['user']['email']
-					);
-		// echo $_SESSION['user']['email'];
+		echo GLOBALS['$_tmp'];
+	 	echo $_SESSION['user']['id'];
+		$arr= array
+		(
+			'name' 				=> $_SESSION['user']['name'],
+			'mobNo'				=> $_SESSION['user']['mobNo'],
+			'age'				=> $_SESSION['user']['age'],
+			'state'				=> $_SESSION['user']['state'],
+			'gender'			=> $_SESSION['user']['gender'],
+			'profilePicture'	=> $_tmp,
+			'resume'			=> $fileName,
+			'fkUserId'			=> $_SESSION['user']['id'],
+			'email'				=> $_SESSION['user']['email']
+		);
+	
 		$a=$dbmsObject->insertInto('user',$arr);
-		//echo "hello-=";
-		//echo $a;
-
-// started from here .......................................................................................
-
-		// $arr = array(
-		//     				'c' 	=>$_SESSION['user']['skills']['one'],
-		//     				'c++'	=>$_SESSION['user']['skills']['two'],
-		//     				'python'=>$_SESSION['user']['skills']['three']
-		//     			);
-		   
-		//    $i=0;
-		   
-		   // $i=0;
-		   // echo $arr['c'];
-		   // echo $arr[$i++];
-		   // echo $arr[$i++];
-		    for($i=0;$i<count($_POST['cb']);$i++)
+		 // SKILL INSERTION  
+		for($i=0;$i<count($_POST['cb']);$i++)
 		    {
-		    	//echo $_POST['cb'][$i];	
-		    	 $tableName='skill';
-		    $attribute='skillName';
-		    	$id=$dbmsObject->getSkillId('skillId',$tableName,$attribute,$_POST['cb'][$i]);
-		    	 $arr= array(
-		    	 				'fkUserId'	=>$_SESSION['user']['id'],
-		    	 				'fkSkillId'	=>$id
+		    	//echo $_POST['cb'][$i];
+		    	$tableName='skill';
+				$attributeName='skillName';
+				$attributeValue=$_POST['cb'][$i];
 
-		    	 			);
+			$row=$dbmsObject->get($tableName,$attributeName,$attributeValue );
+
+		    	$arr= array
+		    	(
+	 				'fkUserId'	=>$_SESSION['user']['id'],
+	 				'fkSkillId'	=>$row['skillId']
+
+	 			);
 		    	 $tableName='userSkill';
 		    	$dbmsObject->insertInto($tableName,$arr);
 		    }
 
 	}  // else block of if($_SESSION['flag']==1)
+
+
+
 ?>
 
 <?php require 'header.php'; ?>	

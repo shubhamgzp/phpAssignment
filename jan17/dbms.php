@@ -26,21 +26,15 @@ class Irud
 					error_log("Query is not executed $query");
 				}	
 		}
-		function getUserId($userId,$tableName,$email,$password)
+		function get($tableName,$attributeName,$attributeValue)
 		{
-			 $query="SELECT * FROM $tableName WHERE email='$email'";
-			 //echo $query;
+			 $query="SELECT * FROM $tableName WHERE $attributeName='$attributeValue'";
+			// echo $query;
 			if( $result = $GLOBALS['dbms_obj']->query($query ) )
 			{
 				$row	= $result->fetch_assoc();
-					//echo $row['password'];
-				if(password_verify($password, $row['password']))
-				{
+				return $row;
 				
-				return $row['userId'];
-
-					//print_r( $row);
-				}
 			}	
 		}
 		function getSkillId($getId,$tableName,$attribute,$attribueValue) // select id from user where skill='c';
@@ -63,7 +57,7 @@ class Irud
 
 
  $ob = new Irud();
- $tname='skill';
+ $tname='user';
  $email='u@gmail.com';
 // $arr = array(
 // 			'email' => 'i@gmail.com',
@@ -75,9 +69,9 @@ class Irud
 
 
 
-// $a=$ob->getSkillId('skillId',$tname,'skillName','c++');
+ //$a=$ob->get($tname,'email','kd@gmail.com');
 // echo "hello ";
 // echo $a;
-
+//echo $a['name'];
 
 ?>
