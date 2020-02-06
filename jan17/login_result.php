@@ -12,7 +12,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 	$_SESSION['error']['emailErr']='';
 	if(!$obValidate->validateEmail($email))
 	{
-
 			$_SESSION['error']['emailErr']='invalid email id or password';
 			header("Location:index.php");
 			exit();
@@ -24,17 +23,17 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 	$attributeName='email';
 	$attributeValue=$email;
  	
- 	echo $row=$dbmsObject->get($tableName,$attributeName,$attributeValue);
+ 	$row=$dbmsObject->get($tableName,$attributeName,$attributeValue);
 	$_SESSION['user']['id']=$row['userId'];
 
 	if(password_verify($password, $row['password']))
 	{
 				
 	
-	if($_SESSION['user']['id'])
-	{
-		echo "helooo..........";
-		echo $_SESSION['user']['id'];
+		if($_SESSION['user']['id'])
+		{
+		// echo "helooo..........";
+		// echo $_SESSION['user']['id'];
  			$_SESSION['user'] = array(
  										'id'	   => $_SESSION['user']['id'],
  										'email'    => $email,
@@ -51,27 +50,26 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
  														  ),
  										'state'    => ''
  									);
- 			echo $_SESSION['user']['email'];
+ 			// echo $_SESSION['user']['email'];
 
- 			echo $_SESSION['user']['id'];
+ 			// echo $_SESSION['user']['id'];
  			//					echo "helloppppppppppppppp";				
  			header("Location:profile.php");
- 		}
-		else
-		{
-			//echo "hello";
-			session_start(); 
-			$_SESSION['user']['check']='false';	
-			//header("Location:index.php");
-		}
-	
- 	}	
+ 		}	
+ 	}
+ 	else
+	{
+		//echo "hello";
+		session_start(); 
+		$_SESSION['user']['check']='false';	
+		header("Location:index.php");
+	}	
 }
 else
 {
 	//echo "hiii";
 	session_start(); 
 	$_SESSION['user']['check']='false';						
-	//header("Location:index.php");	
+	header("Location:index.php");	
 }
 ?>

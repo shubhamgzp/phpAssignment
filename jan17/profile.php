@@ -60,27 +60,31 @@ if($_SESSION['flag']==0)
 <!------------------------------>
 <!-- Login bottom -->
 <div class="container-fluid">
-		<form action="profile_result.php" method="post" enctype="multipart/form-data">
+		<form action="profile_result.php" method="post" enctype="multipart/form-data" name="profileForm" 
+			onsubmit="event.preventDefault(); return profileValidation()">
 			<table class="table">
 				<tbody>
 					<tr>
 						<td>Name:</td>
 						<td>
-							<input type="text" class="form-control form-control-lg form-control-sm" id="name" placeholder="Enter Name" value="<?php echo $_SESSION['user']['name']; ?>" name="name">
-					              <span class="error" style="color:red;">
-						              	<?php
+							<input type="text" class="form-control form-control-lg form-control-sm" placeholder="Enter Name" value="<?php echo $_SESSION['user']['name']; ?>" name="name" id='name'>
+					              
+					              <span style="color:red;" id='errorName'>
+					              	  	<?php
 						              	    if(!empty($_SESSION['error']['nameErr']))
 						                    {
 						                        echo $_SESSION['error']['nameErr']. "*"; 
 				                    	    }
-						                ?>                      
+						                ?> 
+
+
 					              </span>
 						</td>
 					</tr>
 					<tr>
 						<td>Email</td>
 						<td>
-							<input type="email" class="form-control form-control-lg form-control-sm" readonly placeholder="<?php echo $_SESSION['user']['email'];?>" name="email">
+							<input type="email" class="form-control form-control-lg form-control-sm" readonly placeholder="<?php echo $_SESSION['user']['email'];?>" name='email'>
 				              <span class="error" style="color:red;">
 				              		<?php  
 				              			if(!empty($_SESSION['error']['emailErr']))
@@ -89,29 +93,29 @@ if($_SESSION['flag']==0)
 				                        }
 				                    ?>
 				              </span>
+				            
 						</td>
 					</tr>
 
 					<tr>
 						<td>Mobile No.</td>
 						<td>
-							<input type="text" class="form-control form-control-lg form-control-sm" id="mob_no" placeholder="Enter Mobile No." value="<?php echo $_SESSION['user']['mobNo']; ?>" name="mob_no">
-             						<span class="error" style="color:red;">
+							<input type="number" class="form-control form-control-lg form-control-sm" placeholder="Enter Mobile No." value="<?php echo $_SESSION['user']['mobNo']; ?>" name="mob_no" id='mobNo'>
+             						<span class="error" style="color:red;" id='errorMobNumber'>
              							<?php  
              								if(!empty($_SESSION['error']['mob_noErr']))
 											{                              			
                               					echo $_SESSION['error']['mob_noErr']. "*"; 
                        						}
                        					?>
-                          
-             						</span>
+             						</span>      
 						</td>
 					</tr>
 					
 					<tr>
 						<td>State</td>
 						<td>
-							<select class="form-control" id="state" name="state">
+							<select class="form-control" name="state" id="state">
 								<option></option>
 						        <option 
 						        	<?php 
@@ -142,7 +146,7 @@ if($_SESSION['flag']==0)
 						        	 ?>
 						        >MUMBAI</option>
 						        </select>
-						        	<span class="error" style="color:red;">
+						        	<span class="error" style="color:red;" id="errorState">
 						        		<?php
 						        		    if($_SESSION['error']['stateErr']== "state is required")
 						                    {
@@ -156,8 +160,8 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Age</td>
 						<td>
-							<input type="number" class="form-control" placeholder="" value="<?php echo $_SESSION['user']['age']; ?>" name="age">
-              				<span class="error" style="color:red;">
+							<input type="number" class="form-control" placeholder="" value="<?php echo $_SESSION['user']['age']; ?>" name="age" id='age'>
+              				<span class="error" style="color:red;" id='errorAge'>
               					<?php  
                           			if($_SESSION['error']['ageErr'] == "age is required and should be between 20 to 30")
 									{
@@ -172,10 +176,10 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Gender</td>
 						<td>
-							<input type="radio" name="gender" value="male">Male
-        					<input type="radio" name="gender" value="female">Female
-        					<input type="radio" name="gender" value="other">Other
-         				 		<span class="error" style="color:red;">
+							<input type="radio" name="gender" value="male"   class="gender">Male
+        					<input type="radio" name="gender" value="female" class="gender">Female
+        					<input type="radio" name="gender" value="other"  class="gender">Other
+         				 		<span class="error" style="color:red;" id='errorGender'>
          				 			<?php  
          				 				if($_SESSION['error']['genderErr']== "gender is required")
          				 				{	
@@ -189,10 +193,12 @@ if($_SESSION['flag']==0)
 					<tr>
 						<td>Skills</td>
 						<td>
-	  						<input type="checkbox" value="C" value="<?php echo $_SESSION['user']['skills']['one']; ?>" name="cb[]">C
-							<input type="checkbox" value="C++" value="<?php echo $_SESSION['user']['skills']['two']; ?>"  name="cb[]">C++
-							<input type="checkbox" value="python" value="<?php echo $_SESSION['user']['skills']['three']; ?>" name="cb[]">Python
-								<span class="error" style="color:red;">
+	  						<input type="checkbox" class="check" value="C" value="<?php echo $_SESSION['user']['skills']['one']; ?>" name=
+	  						"cb[]">C
+							<input type="checkbox" class="check" value="C++" value="<?php echo $_SESSION['user']['skills']['two']; ?>"  name=
+							"cb[]">C++
+							<input type="checkbox" class="check" value="python" value="<?php echo $_SESSION['user']['skills']['three']; ?>"name="cb[]">Python
+								<span class="error" style="color:red;" id="errorSkills">
 									<?php
 									    if(!empty($_SESSION['error']['skillsErr']))
 									    {
@@ -205,8 +211,9 @@ if($_SESSION['flag']==0)
 
 					<tr>
 						<td>Profile Picture</td>
-						<td><input type="file" name="profilePicture">
-							<span class="error" style="color:red;">
+						<td><input type="file" name="profilePicture" id='profilePicture'>
+
+							<span class="error" style="color:red;" id="errorProfilePicture">
 								<?php
 								  	if(!empty($_SESSION['error']['profilePictureErr']))
 									{
@@ -219,8 +226,8 @@ if($_SESSION['flag']==0)
 
 					<tr>
 						<td>Resume</td>
-						<td><input type="file" name="resume">
-								<span class="error" style="color:red;">
+						<td><input type="file" name="resume" id='resume'>
+								<span class="error" style="color:red;" id='errorResume'>
 									<?php  
 										if(!empty($_SESSION['error']['resumeFileErr']))
   										{
@@ -242,5 +249,6 @@ if($_SESSION['flag']==0)
 			</table>
 		</form>	
 	</div> <!-- outer -->
+	<script type="text/javascript" src="javaScript/javaScript.js"></script>
 </body>
 </html>

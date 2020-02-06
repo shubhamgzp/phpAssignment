@@ -29,7 +29,7 @@ if($_SESSION['user']['check']=='false')
 <!-- Login bottom -->
 	<div class="container-fluid" style="padding:6%;">
 		<div class="container-fluid" style="width:90%; padding:10%px;">
-		<form action="login_result.php" method="post">
+		<form action="login_result.php" method="post" onsubmit=" return formValidation()">
 		    <!-------------------------------->
 			<table class="table " style="padding:1%; background-color: cadetblue; border-radius:1%">
 				<p style="color:red;">
@@ -43,7 +43,7 @@ if($_SESSION['user']['check']=='false')
 				<tbody>
 					<tr>
 						<td style="padding-top:2%">Email</td>
-						<td style="padding-top:2%"><input type="email" class="form-control" required placeholder="Enter email address" name="email">
+						<td style="padding-top:2%"><input type="email" class="form-control" required placeholder="Enter email address" name="email" id="email">
 							<span class="error" style="color:red;">
 				              		<?php  
 				              			if(!empty($_SESSION['error']['emailErr']))
@@ -52,11 +52,15 @@ if($_SESSION['user']['check']=='false')
 				                        }
 				                    ?>
 				              </span>
+				              <span style="color:red" id="errorEmail"></span>
 						</td>
 					</tr>
 					<tr>
 						<td>Password</td>
-						<td><input type="password" class="form-control" required placeholder="Enter password" name="password"></td>
+						<td><input type="password" class="form-control" required placeholder="Enter password" name="password" id="password" >
+						<span style="color:red" id="errorPassword"></span>
+						</td>
+						
 					</tr>
 					<tr>
 						<td></td>
@@ -70,5 +74,6 @@ if($_SESSION['user']['check']=='false')
 		</div>
 	</div>
 </div> <!-- outer -->
+<script type="text/javascript" src="javaScript/javaScript.js"></script>
 </body>
 </html>

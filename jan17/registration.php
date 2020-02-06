@@ -15,13 +15,13 @@ session_start();
 		
 	</div>
 	<div style="width:60%" style="background-color:red;">
-		<form action="registrationResult.php" method="post">
+		<form action="registrationResult.php" method="post" onsubmit="return formValidation()">
 		<div class="row">
 			<div class="col-md-4 col-sm-4 col-sm-pull-4"> <!--head col1 -->
 					<h3 style="color:cadetblue;padding-left:25%;">Email</h3>
 				</div>
 				<div class="col-md-8 col-sm-8 col-sm-pull-8"> <!--head col2 -->
-					<input type="email" class="form-control" required placeholder="Enter email address" name="email">
+					<input type="email" class="form-control" required placeholder="Enter email address" name="email" id="email">
 					<span class="error" style="color:red;">
 				              		<?php  
 				              			if(!empty($_SESSION['error']['emailErr']))
@@ -30,6 +30,7 @@ session_start();
 				                        }
 				                    ?>
 				              </span>
+				               <span style="color:red" id="errorEmail"></span>
 				</div>	
 		</div>
 
@@ -38,7 +39,8 @@ session_start();
 					<h3 style="color:cadetblue;padding-left:25%;">Password</h3>
 				</div>
 				<div class="col-md-8 col-sm-8 col-sm-pull-8"> <!--head col2 -->
-					<input type="password" class="form-control" required placeholder="Enter Password" name="password">
+					<input type="password" class="form-control" required placeholder="Enter Password" name="password" id="password" min="6" >
+					 <span style="color:red" id="errorPassword"></span>
 				</div>	
 		</div>
 
@@ -51,5 +53,6 @@ session_start();
 		</div>
 
 	</div>
+	<script type="text/javascript" src="javaScript/javaScript.js"></script>
 </body>
 </html>
